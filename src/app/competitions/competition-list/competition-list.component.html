@@ -1,0 +1,44 @@
+<p>competition-list works!</p>
+<div class="content" role="main">
+    <!-- {{ competitions | json }} -->
+
+    <div class="card-container" *ngFor="let competition of competitions"> 
+        <a class="card">
+            <div class="card-comp">
+                <!-- Area :  -->
+                <!-- <h1>name Area : {{ competition.area.name }}</h1> -->
+                <h3>{{ competition.area.countryCode }}</h3>
+                <!-- <img class="img" style="max-width:80px;" [src]="competition.area.ensignUrl"> -->
+                <!-- url : {{ competition.area.ensignUrl }} -->
+                <h3>{{ competition.name }}</h3>
+                <!-- code competition : {{ competition.code }} -->
+                <!-- emblemUrl : {{ competition.emblemUrl }} -->
+                <img class="img" style="max-width:80px;" [src]="competition.emblemUrl">
+            </div>
+            <div class="card-saison">
+                <div class="card-saison-info">
+                    <h3>Saison en cours :</h3>
+                    <p>
+                        <b>Début : </b>{{ competition.currentSeason.startDate }}
+                        <b>Fin : </b>{{ competition.currentSeason.endDate }}
+                    </p>
+                    <b>Jour de match : </b>{{ competition.currentSeason.currentMatchday }}
+
+                    <div *ngIf="competition.currentSeason.winner">
+                        <h2>Dernier Vainqueur :</h2>
+                        {{ competition.currentSeason.winner.name }}
+                        <img class="img" style="max-width:40px;" [src]="competition.currentSeason.winner.crestUrl">
+                    </div>
+                    
+                </div>
+                <div class="card-saison-footer">
+                    <!-- <b>numberOfAvailableSeasons : </b> {{ competition.numberOfAvailableSeasons }} -->
+                    <b>lastUpdate : </b>{{ competition.lastUpdated }}
+                </div>
+            </div>
+            
+            
+        </a>
+    </div>
+
+</div>

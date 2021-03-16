@@ -1,0 +1,142 @@
+:host {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 16px;
+    color: #333;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 8px 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .content {
+    display: flex;
+    margin: 82px auto 32px;
+    padding: 0 16px;
+    max-width: 1960px;
+    flex-direction: row;
+
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
+  }
+
+  .card-container {
+    display: flex;
+    flex-wrap: nowrap;
+    // justify-content: center;
+    margin-top: 16px;
+    flex-direction: row;
+  }
+
+  .card {
+    border-radius: 6px;
+    border: 1px solid #eee;
+    background-color: #fafafa;
+    height: 250px;
+    width: 600px;
+    margin: 0 8px 16px;
+    
+    display: flex;
+    flex-direction: row;
+    // justify-content: center;
+    // align-items: center;
+    transition: all 0.2s ease-in-out;
+    line-height: 24px;
+  }
+
+  .card-container .card:not(:last-child) {
+    margin-right: 0;
+  }
+
+  .card-container .card:not(.highlight-card) {
+    cursor: pointer;
+  }
+
+  .card-container .card:not(.highlight-card):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
+  }
+
+  .card-container .card:not(.highlight-card):hover .material-icons path {
+    fill: rgb(105, 103, 103);
+  }
+
+  .card-comp {
+    justify-content: left;
+    flex: 1;
+    background-color: #6BFF30;
+    padding: 10px;
+  }
+  
+  .card-saison {
+    justify-content: right;
+    flex: 2;
+    flex-direction: column;
+    display: flex;
+    padding: 10px;
+  }
+
+  .card-saison-info {
+    justify-content: right;
+    flex: 5;
+  }
+
+  .card-saison-footer {
+    flex: 1;
+    text-align: right;
+    align-items: flex-end;
+  }
+  a,
+  a:visited,
+  a:hover {
+    color: #1976d2;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #125699;
+  }
+
+
+  /* Responsive Styles */
+  @media screen and (max-width: 767px) {
+
+    .card-container > *:not(.circle-link) ,
+    .terminal {
+      width: 100%;
+    }
+
+    .card:not(.highlight-card) {
+      height: 16px;
+      margin: 8px 0;
+    }
+
+    .card.highlight-card span {
+      margin-left: 72px;
+    }
+
+    svg#rocket-smoke {
+      right: 120px;
+      transform: rotate(-5deg);
+    }
+  }
+
+  @media screen and (max-width: 575px) {
+    svg#rocket-smoke {
+      display: none;
+      visibility: hidden;
+    }
+  }
