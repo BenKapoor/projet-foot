@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from './../../services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-competition-list',
@@ -12,7 +13,7 @@ export class CompetitionListComponent implements OnInit {
   content: string;
   competitions: any = [];
   test: string;
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
 
@@ -32,8 +33,6 @@ export class CompetitionListComponent implements OnInit {
     for (let i = 0; i < this.competitions
       .length; i++) {
       const element = this.competitions[i];
-       
-      console.log((this.competitions[i]['code']));
       
       // Changement de l'image du championnat brésilien
       if ((this.competitions[i]['code']) == 'BSA') {
@@ -97,4 +96,12 @@ export class CompetitionListComponent implements OnInit {
       }
     } 
   }
+
+  onViewDetail(i: number){
+    var idCompetition = this.competitions[i]['id'];
+    console.log(idCompetition);
+    
+    return this.router.navigate(['/competitions', 'view', idCompetition]);
+  }
+  
 }

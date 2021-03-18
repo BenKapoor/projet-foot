@@ -1,1 +1,148 @@
-<p>competition-detail works!</p>
+<div class="main">
+    <div class="title">
+        <p>competition-detail works!</p>
+    </div>
+    <!-- tableau contenant les infos globales de la compétion ( dates et vainqueurs) -->
+    <div class="content">
+        <div class="tab-recap">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="3" *ngIf="competitionDetail.name; else elseTemplateWinner ">{{ competitionDetail.area.name }} - {{ competitionDetail.name }}
+                              <!-- - <i><small>{{ competitionDetail.lastUpdated | date : 'M/d/yy' }}</small></i> -->
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Début de la saison</td>
+                        <td>Fin de la saison</td>
+                        <td>Journée en cours</td>
+                    </tr>
+                    <tr>
+                        <td>{{ competitionDetail.currentSeason.startDate }}</td>
+                        <td>{{ competitionDetail.currentSeason.endDate }}</td>
+                        <td>{{ competitionDetail.currentSeason.currentMatchday }}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="3">Derniers vanqueurs</th>
+                    </tr>
+                    <tr>
+                        <td class="sticky-td-2" colspan="2">Saison</td>
+                        <td class="sticky-td-2" >Vainqueur</td>
+                    </tr>
+
+                    <tr *ngFor="let season of competitionDetail.seasons; let i = index">
+                        <td colspan="2" *ngIf="season.startDate; else elseTemplateWinner ">{{ season.startDate }} - {{ season.endDate }}</td>
+                        <td *ngIf="season.winner; else elseTemplateWinner ">   
+                            <div>{{ season.winner.shortName }}</div>
+                            <div (click)="onViewTeam(i)"><img class="img" style="max-width:30px;" [src]="season.winner.crestUrl"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <ng-template #elseTemplateWinner>
+                <td class="case-rayure"><i>NaN</i></td>
+            </ng-template>
+        </div>
+
+        <div class="tab-desciptif">
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="14">{{ competitionMatch.competition.area.name }} - {{ competitionMatch.competition.name }}
+                                  <!-- - <i><small>{{ competitionDetail.lastUpdated | date : 'M/d/yy' }}</small></i> -->
+                            </th>
+                        </tr>
+                    </thead>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <!-- <tr>
+                            <th colspan="">Derniers vanqueurs</th>
+                        </tr> -->
+                        <tr style="background-color: deepskyblue;">
+                            <td class="sticky-td-1" colspan="2">Equipes</td>
+                            <td class="sticky-td-1" >Phase</td>
+                            <td class="sticky-td-1"  colspan="4">Score</td>
+                        </tr>
+                        <tr>
+                            <td class="sticky-td-2"><b>Equipe exterieur</b></td>
+                            <td class="sticky-td-2"><b>Equipe Domicile</b></td>
+                            <td class="sticky-td-2"><b>Phase de compétition</b></td>
+                            <!-- <td><b>Prol. equipe ext</b></td>
+                            <td><b>Prol. equipe dom</b></td> -->
+                            <td class="sticky-td-2"><b>Total equipe dom</b></td>
+                            <td class="sticky-td-2"><b>Total equipe ext</b></td>
+                            <!-- <td><b>MT equipe ext</b></td>
+                            <td><b>MT equipe dom</b></td>
+                            <td><b>Pen. equipe ext</b></td>
+                            <td><b>Pen. equipe dom</b></td> -->
+                            <td class="sticky-td-2"><b>Vainqueur</b></td>
+                            <!-- <td><b>Stage</b></td> -->
+                            <td class="sticky-td-2"><b>Status</b></td>
+                        </tr>
+                        <tr class="tab-match" *ngFor="let matche of competitionMatch.matches; let i = index"
+                            (click)="onViewMatch(i)">
+                            <!-- <td>{{ i }}</td> -->
+    
+                            <!-- Equipe à Dommicile -->
+                            <td class="matche-name">
+                                <div *ngIf="matche.score.fullTime.homeTeam > matche.score.fullTime.awayTeam; else elseTemplateHomeTeam" style="color: #32ce37;">
+                                    {{ matche.homeTeam.name }}
+                                </div>
+                                <ng-template #elseTemplateHomeTeam >
+                                    <div style="color:red;">{{ matche.homeTeam.name }}</div>
+                                 </ng-template>
+                            </td>
+    
+                            <!-- Equipe à l'exterieur -->
+                            <td>
+                                <div *ngIf="matche.score.fullTime.awayTeam > matche.score.fullTime.homeTeam; else elseTemplateAwayTeam" style="color: #32ce37;">
+                                    {{ matche.awayTeam.name }}
+                                </div>
+                                <ng-template #elseTemplateAwayTeam >
+                                    <div style="color:red;">{{ matche.awayTeam.name }}</div>
+                                 </ng-template>
+                            </td>
+                            
+                            <!-- Phade de competition -->
+                            <td *ngIf="matche.group; else elseTemplate ">{{ matche.group }}</td>
+                            <!-- <td *ngIf="matche.score.extraTime.awayTeam; else elseTemplateScore ">{{ matche.score.extraTime.awayTeam }}</td>
+                            <td *ngIf="matche.score.extraTime; else elseTemplateScore ">{{ matche.score.extraTime.homeTeam }}</td> -->
+    
+                            <!-- Score  -->
+                            <td *ngIf="matche.score.fullTime.homeTeam; else elseTemplateScore ">{{ matche.score.fullTime.homeTeam }}</td>
+                            <td *ngIf="matche.score.fullTime.awayTeam; else elseTemplateScore ">{{ matche.score.fullTime.awayTeam }}</td>
+                            <!-- <td *ngIf="matche.score.halfTime.awayTeam; else elseTemplateScore ">{{ matche.score.halfTime.awayTeam }}</td>
+                            <td *ngIf="matche.score.halfTime.homeTeam; else elseTemplateScore ">{{ matche.score.halfTime.homeTeam }}</td>
+                            <td *ngIf="matche.score.penalties.awayTeam; else elseTemplateScore ">{{ matche.score.penalties.awayTeam }}</td>
+                            <td *ngIf="matche.score.penalties.homeTeam; else elseTemplateScore ">{{ matche.score.penalties.homeTeam }}</td> -->
+    
+                            <!-- Vainqueur -->
+                            <td *ngIf="matche.score.winner; else elseTemplateWinner ">{{ matche.score.winner }}</td>
+                            <!-- <td *ngIf="matche.season.currentMatchday; else elseTemplateWinner ">{{ matche.season.currentMatchday }}</td> -->
+                            <!-- <td *ngIf="matche.season.endDate; else elseTemplateWinner ">{{ matche.season.endDate }}</td>
+                            <td *ngIf="matche.season.startDate; else elseTemplateWinner ">{{ matche.season.startDate }}</td> -->
+                            <!-- <td *ngIf="matche.stage; else elseTemplateWinner ">{{ matche.stage }}</td> -->
+    
+                            <!-- Status du match -->
+                            <td *ngIf="matche.status; else elseTemplateWinner " [ngStyle]="{color:getStatusColor(matche.status)}" [(ngModel)] = "status">{{ matche.status }}</td>
+                            <!-- <td *ngIf="season.winner; else elseTemplateWinner ">   
+                                <div>{{ season.winner.shortName }}</div>
+                                <div (click)="onViewTeam(i)"><img class="img" style="max-width:30px;" [src]="season.winner.crestUrl"></div>
+                            </td> -->
+                        </tr>
+                    </tbody>
+                </table>
+                <ng-template #elseTemplateScore>
+                    <td>0</td>
+                </ng-template>
+                <ng-template #elseTemplateWinner>
+                    <td>0</td>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
