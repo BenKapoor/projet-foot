@@ -1,0 +1,91 @@
+<div class="main">
+    <div class="title" role="banner">
+        <div class="title-container">
+            <div class="title-h1">
+                <h1>Confrontation {{ homeTeam?.name }} VS {{ awayTeam?.name }}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="content-haut">
+        <div class="chart-size">
+            <div *ngIf="chart">
+                <canvas id="canvas">{{ chart }}</canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="content-bas">
+        <div class="tab-recap ">
+            <div>
+                <h3 class="titre-design">Statistiques du match</h3>
+                <table>    
+                    <thead>
+                        <tr>
+                            <th colspan="3">Statistiques du match
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ matchDetail?.group }}</td>
+                            <td colspan="2">Journée : {{ matchDetail?.matchday }}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Domicile</td>
+                            <td>Exterieur</td>
+                        </tr>
+                        <tr>
+                            <td>Buts première MT</td>
+                            <td *ngIf="scoreHalf?.homeTeam; else elseTemplateScore ">{{ scoreHalf?.homeTeam }}</td>
+                            <td *ngIf="scoreHalf?.awayTeam; else elseTemplateScore ">{{ scoreHalf?.awayTeam }}</td>
+                        </tr>
+                        <tr>
+                            <td>Buts temps extra</td>
+                            <td *ngIf="scoreExtra?.homeTeam; else elseTemplateScore ">{{ scoreExtra?.homeTeam }}</td>
+                            <td *ngIf="scoreExtra?.awayTeam; else elseTemplateScore ">{{ scoreExtra?.awayTeam }}</td>
+                        </tr>
+                        <tr>
+                            <td>Buts sur Penalty</td>
+                            <td *ngIf="scorePenalties?.homeTeam; else elseTemplateScore ">{{ scorePenalties?.homeTeam }}</td>
+                            <td *ngIf="scorePenalties?.awayTeam; else elseTemplateScore ">{{ scorePenalties?.awayTeam }}</td>
+                        </tr>
+                        <tr>
+                            <td>Score Final</td>
+                            <td *ngIf="scoreFull?.homeTeam; else elseTemplateScore ">{{ scoreFull?.homeTeam }}</td>
+                            <td *ngIf="scoreFull?.awayTeam; else elseTemplateScore ">{{ scoreFull?.awayTeam }}</td>
+                        </tr>
+                        <ng-template #elseTemplateScore>
+                            <td>0</td>
+                        </ng-template>
+                        <tr>
+                            <td colspan="2">Arbitres</td>
+                            <td>Nationalité</td>
+                        </tr>
+                        <tr *ngFor="let referee of referees; let i=index">
+                            <td colspan="2">
+                                {{ referee?.name }}
+                            </td>
+                            <td >
+                                {{ referee?.nationality }}
+                            </td>
+                        </tr>
+                        <tr *ngIf="score?.winner == 'HOME_TEAM'; else elseVainqueur">
+                            <b>Vainqueur : {{ homeTeam?.name }}</b>
+                        </tr>
+                        <ng-template #elseVainqueur >
+                            <tr>
+                                <b>Vainqueur : {{ awayTeam?.name }}</b>
+                            </tr>
+                        </ng-template>
+                        <tr>
+                            Stade {{ matchDetail?.venue }} 
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

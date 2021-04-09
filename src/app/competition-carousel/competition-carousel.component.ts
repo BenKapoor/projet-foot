@@ -1,41 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ApiService } from './../../services/api.service';
-import { Competition } from './../../interfaces/icompetition';
+import { ApiService } from './../services/api.service';
+import { Competition } from './../interfaces/icompetition';
+import { OwlOptions } from 'ngx-owl-carousel-o';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-competition-list',
-  templateUrl: './competition-list.component.html',
-  styleUrls: ['./competition-list.component.scss']
+  selector: 'app-competition-carousel',
+  templateUrl: './competition-carousel.component.html',
+  styleUrls: ['./competition-carousel.component.scss']
 })
-export class CompetitionListComponent implements OnInit {
+export class CompetitionCarouselComponent implements OnInit {
 
   competitions?: Array<Competition> = [];
-
-  constructor(private apiService: ApiService, private router: Router) {}
+  competitionImg?: Array<any> = [];
+    
+  constructor(private apiService: ApiService, private router: Router) { }
 
   ngOnInit(): void {
     /**
      * Appel du service
      */
-    this.apiService.getCompetitionFromServe().subscribe(
+     this.apiService.getCompetitionFromServe().subscribe(
       data => {  
-        // Récupération de l'array contenant les compétitions dispo
         this.competitions = data.competitions;
+        
         // Update des données
         this.update();
-      }, err => {
-        this.competitions = (err.error).message;
+
+        // Boucle permettant de récupérer lors du init les images des compétitions api
+        for (let i = 0; i < this.competitions.length; i++) {
+          const competition = this.competitions[i];
+          this.competitionImg.push(competition.emblemUrl);          
+        }
       }
     )
   }
   
-
   /**
    * Fonction mettant à jour différentes données de l'array arrayCompetition
    */
-  update(){
+   update(){
     for (let i = 0; i < this.competitions.length; i++) {
       const competition = this.competitions[i];
       
@@ -101,15 +106,43 @@ export class CompetitionListComponent implements OnInit {
     } 
   }
 
+
+  // Paramétrage du caroussel
+  customOptions: OwlOptions  = {
+    mouseDrag: false,
+    touchDrag: false,
+    pullDrag: false,
+    dots: false,
+    navText: ['', ''],
+    responsive: {
+      0: {
+        items: 1
+      },
+      400: {
+        items: 2
+      },
+      740: {
+        items: 3
+      },
+      940: {
+        items: 4,
+      }
+    },
+    nav: true,
+    items:4,
+    loop:true,
+    autoplay:true,
+    autoplayTimeout:2000,
+    autoplayHoverPause:true  
+  }
+
   /**
-   * Fonction permettant de rediriger vers le détaail correspondant grace à l'id
+   * Fonction permettant de rediriger vers le détail correspondant grace à l'id
    * @param i 
    * @returns 
    */
-  onViewDetail(i: number){
+   onViewDetail(i: number){
     var idCompetition = this.competitions[i].id;
-    
     return this.router.navigate(['/competitions', 'view', idCompetition]);
   }
-  
 }

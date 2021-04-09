@@ -1,7 +1,12 @@
 import { ActivatedRoute, Router } from '@angular/router';
+import { Area, Competition, CurrentSeason, ICompetition, Winner } from './../../interfaces/icompetition';
 import { Component, Input, OnInit } from '@angular/core';
 
 import { ApiService } from './../../services/api.service';
+import { Match } from 'src/app/interfaces/icompetition-match';
+import { Scorer } from './../../interfaces/icompetition-match';
+import { Season } from './../../interfaces/icompetition-sub-resource';
+import { Standing } from './../../interfaces/icompetition-standing';
 
 @Component({
   selector: 'app-competition-detail',
@@ -10,61 +15,98 @@ import { ApiService } from './../../services/api.service';
 })
 export class CompetitionDetailComponent implements OnInit {
 
-  content: string;
-  competitionDetail: any = [];
-  competitionMatch: any = [];
+  competition?: ICompetition;
+  competitionDetail?: Competition; // Informations générales contenant competitionCurrentSeason et competitionArea
+  area?: Area; // Informations de la zone de la compétition
+  currentSeaon?: CurrentSeason; // Informations de la saison en cours
+  seasons?: Array<Season> = []; // Informations de toutes les saisons
+ 
+  matches?: Array<Match> = []; // Informations concernant les matchs de la compétition
+
+  buteurs?: Array<Scorer> = []; // Informations sur les 10 meilleurs buteurs de la compétition
+
+  standings?: Array<Standing> = []; // Informations détaillées sur les rencontres
 
   constructor(private route: ActivatedRoute, 
               private router: Router, 
               private apiService: ApiService) { }
 
   ngOnInit(): void {
+    //Récupération de l'id dans l'url grace à ActiveRoute
     const id = this.route.snapshot.params['id'];
 
+    /**
+     * Appel du service Detaillant la competition
+     */
     this.apiService.getCompetitionDetailFromServe(id).subscribe(
       data => {      
-        this.competitionDetail = JSON.parse(data);
+        this.competitionDetail = data;
+        console.log(data);
+        
+        this.area = data.area;
+        this.currentSeaon = data.currentSeason;
+        this.seasons = data.seasons;
+      },
+      err => {
+        this.competitionDetail = (err.error).message;
       }
-    )
+    );
 
+    /**
+     * Appel du service listant les matchs de la competition
+     */
     this.apiService.getCompetitionMatchFromServe(id).subscribe(
       data => {      
-        this.competitionMatch = JSON.parse(data);
-        console.log(this.competitionMatch);
-        this.update();
+        this.matches = data.matches;
+        this.update();        
+      },
+      err => {
+        this.matches = (err.error).message;
       }
-    )
+    );
+
+    /**
+     * Appel du service classant les equipes de la compétition
+     */
+    this.apiService.getCompetitionMatchClassementFromServe(id,'TOTAL').subscribe(
+      data => {          
+        this.standings = data.standings; // récupérations des confrontations      
+      },
+      err => {
+        this.standings = (err.error).message;
+      }
+    );
+
+    /**
+     * Appel du service classant les buteurs de la compétition
+     */
+    this.apiService.getCompetitionScorersFromServe(id).subscribe(
+      data => {      
+        this.buteurs = data.scorers;
+      },
+      err => {
+        this.buteurs = (err.error).message;
+      }
+    );  
   }
 
 
   update(){
-    for (let i = 0; i < this.competitionMatch['matches']
-      .length; i++) {
-      const group = this.competitionMatch['matches'][i]['group'];
-      const stage = this.competitionMatch['matches'][i]['stage'];
-      const winner = this.competitionMatch['matches'][i]['score']['winner'];
+    // Boucle sur l'ensemble des matchs récupérés
+    for (let i = 0; i < this.matches.length; i++) {
+      const group = this.matches[i].group;
+      const stage = this.matches[i].stage;
 
       // En cas de phase (stage) vide remplacer grace à la valeur dans group
       if (group == null) {
         if (stage == 'ROUND_OF_16') {
-          this.competitionMatch['matches'][i]['group'] = 'Round of 16';
+          this.matches[i].group = 'Round of 16';
         } else if (stage == 'PLAY_OFF_ROUND') {
-          this.competitionMatch['matches'][i]['group'] = 'Play Off';
+          this.matches[i].group = 'Play Off';
+        } else if (stage == 'QUARTER_FINALS') {
+          this.matches[i].group = 'Quarter Finals';
         }
       } 
-      // Si le vainqueur correspoond à "HOME_TEAM" alors on retourne le nom de l'équipe à domicil 
-      if (winner == "HOME_TEAM") {
-        this.competitionMatch['matches'][i]['score']['winner'] = this.competitionMatch['matches'][i]['homeTeam']['name'];
-
-      // Si le vainqueur correspoond à "AWAY_TEAM" alors on retourne le nom de l'équipe exterieur
-      } else if (winner == "AWAY_TEAM") {
-        this.competitionMatch['matches'][i]['score']['winner'] = this.competitionMatch['matches'][i]['awayTeam']['name'];
-
-      // Si le vainqueur correspoond à "HOME_TEAM" alors on retourne Match nul
-      } else if (winner == "DRAW") {
-        this.competitionMatch['matches'][i]['score']['winner'] = 'Match nul';
-
-      }        
     } 
   }
 
@@ -77,8 +119,8 @@ export class CompetitionDetailComponent implements OnInit {
    * @param status 
    * @returns 
    */
-  getStatusColor(status){  
-    switch (status) {
+  getStatusColor(statuts){  
+    switch (statuts) {
       case 'FINISHED':
         return 'green';
       case 'SCHEDULED':
@@ -86,6 +128,8 @@ export class CompetitionDetailComponent implements OnInit {
       case 'AWARDED':
         return '#F0D22E';
       case 'CANCELED':
+        return 'red';
+      case 'POSTPONED':
         return 'red';
     }  
   }  
@@ -95,8 +139,8 @@ export class CompetitionDetailComponent implements OnInit {
    * @param i 
    */
   onViewTeam(i: number){
-    var idTeam = this.competitionDetail["seasons"][i]["winner"]["id"];
-    console.log(idTeam);
+    var idTeam = this.competitionDetail.seasons[i].winner.id;
+    this.router.navigate(['/teams', 'view', idTeam]);
   }
 
   /**
@@ -104,7 +148,16 @@ export class CompetitionDetailComponent implements OnInit {
    * @param i 
    */
    onViewMatch(i: number){
-    var idMatch = this.competitionMatch["matches"][i]["id"];
-    console.log(idMatch);
+    var idMatch = this.matches[i].id;
+    this.router.navigate(['/matchs', 'view', idMatch])
+  }
+
+  /**
+   * redirige sur la team du classement d'une ligue selectionée
+   * @param i 
+   */
+   onViewTeamClassementLigue(i: number){
+    var idTeam = this.standings[0].table[i].team.id;  
+    this.router.navigate(['/teams', 'view', idTeam]);
   }
 }

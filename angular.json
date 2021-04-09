@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": ["chart.js"],
             "outputPath": "dist/projet-foot",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -28,9 +29,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
+              "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/custom.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -65,7 +70,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "projet-foot:build"
+            "browserTarget": "projet-foot:build",
+            "proxyConfig": "./proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -93,7 +99,10 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "src/custom.js"
+            ]
           }
         },
         "lint": {

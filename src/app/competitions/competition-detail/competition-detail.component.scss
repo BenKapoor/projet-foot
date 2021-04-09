@@ -19,15 +19,28 @@ h6 {
 p {
     margin: 0;
 }
+
 .main {
     display: flex;
     flex-direction: column;
-    margin: 120px auto 32px;
+    margin: 120px 0px 32px;
 }
 
-.content {
+.content-haut {
     display: flex;
-    margin: 120px auto 32px;
+    margin: 0px auto 32px;
+    padding: 0 16px;
+    max-width: 1960px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    align-content: stretch;
+}
+
+.content-bas {
+    display: flex;
+    margin: 0px auto 32px;
     padding: 0 16px;
     max-width: 1960px;
     flex-direction: row;
@@ -38,29 +51,122 @@ p {
 }
 
 .tab-recap {
+    margin: 120px 25px 32px;
     display: flex;
-    flex: 1;
+    
 }
 
 .tab-desciptif {
+    margin: 120px 25px 32px;
     display: flex;
     flex: 2;
 }
 
+.tab-classement {
+    margin: 120px 25px 32px;
+    display: flex;
+    flex: 2;
+}
+
+.tab-buteur {
+    margin: 120px 25px 32px;
+    display: flex;
+}
+
 .title {
-    margin-top: 16px;
     justify-content: center;
     flex-direction: row;
     display: flex;
     flex: 1;
+    text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+    // text-decoration: underline solid #277732a6;
+    font-size: 30px;
+    margin: auto 10px 30px;
+    // position: sticky;
+    top: 80px;
+    z-index: 4;
+    background-color: white;
+    width: 100%;
+    height: 100%;
 }
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.title-h1 {
+    display: flex;
+    flex: 1;
+}
+
+// Dropdown menu
+.dropbtn {
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+  
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #2980B9;
+}
+  
+.dropdown {
+    position: relative;
+    display: inline-block;
+    flex: 1;
+    margin: auto 10px 30px;
+    font-size: initial;
+}
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 100px;
+    overflow: auto;
+    // box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    white-space:nowrap;
+}
+  
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+  
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+
+// Dropdown menu -- Fin
 
 tbody { display: block; }
 
-tbody {
-    height: 600px;       /* Just for the demo          */
+tbody.tab-overflow-y {
+    height: 550px;       /* Just for the demo          */
     overflow-y: auto;    /* Trigger vertical scroll    */
     overflow-x: hidden;  /* Hide the horizontal scroll */
+}
+
+tbody.tab-overflow-x {
+    height: 550px;       /* Just for the demo          */
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: auto;    /* Trigger horizontal scroll */
+    width: 900px;
+}
+
+tbody.tab-overflow-dropdown-x {
+    height: 110px;       /* Just for the demo          */
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: auto;    /* Trigger horizontal scroll */
+    width: 900px;
+    font-size: 10px;
 }
 
 td {
@@ -69,22 +175,35 @@ td {
     text-align: center;
 }
 
-th {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-    position: sticky;
-    top: 0;
-}
 td.sticky-td-1 {
     position: sticky;
     top: 0;
-    background-color: deepskyblue;
+    background-color: #32ce37;
+    z-index: 3;
 }
 
 td.sticky-td-2 {
     position: sticky;
     top: 35px;
+    background-color: #ddd;
+}
+
+td.sticky-td-vertical-1 {
+    position: sticky;
+    left: 0;
+    background-color: #ddd;
+    z-index: 2;
+}
+
+td.sticky-td-vertical-2 {
+    position: sticky;
+    left: 73px;
+    background-color: #ddd;
+}
+
+td.sticky-td-vertical-3 {
+    position: sticky;
+    left: 124px;
     background-color: #ddd;
 }
 
@@ -100,12 +219,24 @@ th {
     color: white;
 }
 
+#classement>tr:nth-last-child(-n+2) { background:#ec7d7d50; }
+
 .img {
     cursor: pointer;
   }
 
 .tab-match {
     cursor: pointer;
+}
+
+.case-non-pointable {
+    pointer-events:none;
+}
+
+.div-tab-compet {
+    
+    border: 1px solid #333;
+    
 }
 
 .case-rayure {
@@ -118,4 +249,11 @@ th {
         rgba(177, 173, 173, 0.733) 10px, 
         white 10px);
     min-height: 100%;
+}
+
+.titre-design {
+    margin: auto 10px 30px;
+    text-align: left;
+    text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+    text-decoration: underline solid #277732a6;
 }

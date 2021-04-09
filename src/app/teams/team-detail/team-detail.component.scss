@@ -1,0 +1,137 @@
+:host {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 12px;
+    color: #333;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 8px 0;
+}
+
+p {
+    margin: 0;
+}
+
+li{
+    list-style: none;
+    padding: 4px;
+    font-size: 14px;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    margin: 120px 0px 32px;
+}
+
+.content-haut {
+    display: flex;
+    margin: 0px auto 32px;
+    padding: 0 16px;
+    max-width: 1960px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    align-content: stretch;
+}
+
+.info-equipe{
+    display: flex;
+    flex-direction: column;
+    padding-right: 50px;
+    padding-bottom: 25px;
+}
+
+.compet-active{
+    display: flex;
+    flex-direction: column;
+    padding-left: 50px;
+    padding-bottom: 25px;
+}
+
+.content-bas {
+    display: flex;
+    margin: 0px auto 32px;
+    padding: 0 16px;
+    max-width: 1960px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    align-content: stretch;
+}
+
+.title {
+    justify-content: center;
+    flex-direction: row;
+    display: flex;
+    flex: 1;
+    text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+    // text-decoration: underline solid #277732a6;
+    font-size: 30px;
+    margin: auto 10px 30px;
+    // position: sticky;
+    top: 80px;
+    z-index: 4;
+    background-color: white;
+    width: 100%;
+    height: 100%;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.title-h1 {
+    display: flex;
+    flex: 1;
+}
+
+tbody { display: block; }
+
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+tr:nth-child(even){background-color: #f2f2f2;}
+
+tr:hover {background-color: #ddd;}
+
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #32ce37;
+    color: white;
+}
+
+.case-rayure {
+    // background-color: rgba(177, 173, 173, 0.377);
+    pointer-events:none;
+    background: repeating-linear-gradient(
+        60deg, 
+        white , 
+        rgba(177, 173, 173, 0.377) 10px, 
+        rgba(177, 173, 173, 0.733) 10px, 
+        white 10px);
+    min-height: 100%;
+}
+
+.titre-design {
+    margin: auto 10px 30px;
+    text-align: left;
+    text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+    text-decoration: underline solid #277732a6;
+}

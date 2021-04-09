@@ -1,0 +1,10 @@
+<div class="div-caroussel">
+    <owl-carousel-o [options]="customOptions">
+        <ng-container *ngFor="let image of competitionImg; let i = index">
+            <ng-template carouselSlide>
+                <img (click)="onViewDetail(i)" style="max-width:150px;cursor: pointer;" src="{{ image }}">
+            </ng-template> 
+        </ng-container> 
+    </owl-carousel-o>
+</div>
+

@@ -1,0 +1,80 @@
+<div class="main">
+    <div class="title" role="banner">
+        <div class="title-container">
+            <div class="title-h1">
+                <h1> 
+                    <img class="img" style="max-width:100px;" [src]="teamInfo?.crestUrl"> 
+                    {{ teamInfo?.name }} 
+                </h1>
+            </div>
+        </div>
+    </div>
+    
+    <div class="content-haut">    
+        <div class="info-equipe">
+            <li>
+                <img class="img" style="max-width:30px;" [src]="teamInfo?.crestUrl">
+                {{ teamInfo?.name }}
+            </li>
+            <li>{{ teamInfo?.address }}</li>
+            <li>{{ teamInfo?.phone }}</li>
+            <li>{{ teamInfo?.website }}</li>
+            <li>{{ teamInfo?.email }}</li>
+            <li>{{ teamInfo?.founded }}</li>
+            <li>{{ teamInfo?.clubColors }}</li>
+            <li>{{ teamInfo?.venue }}</li>
+        </div>
+
+        <div class="compet-active">
+            <table>    
+                <thead>
+                    <tr>
+                        <th>Compétitions actives
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let compet of activeCompet; let i = index">
+                        <td (click)="onViewCompetition(i)" 
+                            style="cursor: pointer;">
+                            {{ compet?.name }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>  
+    
+    <div class="content-bas">
+        <div>
+            <div>
+                <table>    
+                    <thead>
+                        <tr>
+                            <th colspan="3">Effectif de l'équipe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nom</td>
+                            <td>Position</td>
+                            <td>Date de Naissance</td>
+                            <td>Nationalité</td>
+                            <td>Rôle</td>
+                        </tr>
+                        <tr *ngFor="let player of squad">
+                            <td>{{ player?.name }}</td>
+                            <td>{{ player?.position }}</td>
+                            <td>{{ player?.dateOfBirth | date:'MMMM d, y' }}</td>
+                            <td>{{ player?.nationality }}</td>
+                            <td>{{ player?.role }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
